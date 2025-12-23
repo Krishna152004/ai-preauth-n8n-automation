@@ -1,0 +1,45 @@
+{
+  "name": "AI Insurance Pre-Authorization Automation",
+  "nodes": [
+    {
+      "name": "FHIR Trigger",
+      "type": "webhook",
+      "description": "Triggered on new procedure order from EHR"
+    },
+    {
+      "name": "Policy RAG Agent",
+      "type": "openai",
+      "description": "Checks if pre-auth required using payer policy PDFs"
+    },
+    {
+      "name": "Clinical Extraction",
+      "type": "openai",
+      "description": "Extracts medical necessity evidence from notes"
+    },
+    {
+      "name": "Validation Rules",
+      "type": "if",
+      "description": "Confidence & missing-data checks"
+    },
+    {
+      "name": "Human Review",
+      "type": "manual",
+      "description": "Optional human-in-the-loop"
+    },
+    {
+      "name": "Payer Submission",
+      "type": "httpRequest",
+      "description": "API or RPA submission"
+    },
+    {
+      "name": "Status Monitor",
+      "type": "cron",
+      "description": "Polls payer status"
+    },
+    {
+      "name": "Update Billing",
+      "type": "httpRequest",
+      "description": "Writes Auth ID back to billing system"
+    }
+  ]
+}
